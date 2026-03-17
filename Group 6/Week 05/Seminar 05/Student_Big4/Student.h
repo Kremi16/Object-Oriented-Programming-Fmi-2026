@@ -3,47 +3,50 @@
 #include <iostream>
 using namespace std;
 class Student {
-	char* name = nullptr;
-	unsigned fn;
-	double* grades = nullptr;
 
+	static constexpr int MAX_SIZE = 31;
+
+	char* name= nullptr;
+	unsigned int fn;
+
+	double* grades = nullptr;
 	int gradeCount = 0;
 	int gradeCapacity = 8;
 
+	char quote[MAX_SIZE];
+
 	void free();
 	void copyFrom(const Student& other);
+
 	void resize(int newCap);
-
 public:
-	// no default constructor
-	Student(const char* name, unsigned fn);
 
-	Student(const char* name, unsigned fn, double* grades, int gradesCount);
+	//no default constructor on purpose!!!
+	Student(const char*, unsigned int fn, const char* quote);
+	Student(const char* name, unsigned int fn, double* grades, int gradeCount, const char* quote);
 
 	Student(const Student& other);
-
-	Student& operator=(const Student& other);
+	Student& operator=(const Student&);
 	~Student();
 
-	const char* getName() const;
-	void setName(const char* name);
+	unsigned int getFn() const;
+	void setFn(unsigned int Fn);
 
+	const char* getName() const;
+	void setName(const char*);
+
+	const char* getQuote() const;
+	void setQuote(const char*);
 
 	double* getGrades() const;
 	void setGrades(const double* grades, int gradeCount);
 
-	unsigned getFn() const;
-	void setFn(unsigned fn);
-
-
-	double getGradeCount() const;
-	
-	void addGrade(double grade);
+	int getGradeCount() const;
 
 	double getAverageGrade() const;
 
-	
+	void addGrade(double grade);
 
+	void removeGradeAt(int index);
 
 };
-
