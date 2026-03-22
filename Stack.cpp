@@ -1,9 +1,6 @@
 #include "Stack.h"
 
-Stack::Stack() :size(DEFAULT_SIZE)
-{
-	stack = new int[size];
-}
+Stack::Stack() :Stack(DEFAULT_CAPACITY){}
 
 Stack::~Stack()
 {
@@ -32,6 +29,7 @@ void Stack::free()
 	delete[]stack;
 	stack = nullptr;
 	size = 0;
+	capacity = 0;
 }
 
 Stack& Stack::operator=(const Stack& other)
@@ -47,9 +45,9 @@ Stack& Stack::operator=(const Stack& other)
 	return *this;
 }
 
-Stack::Stack(size_t size) :size(size)
+explicit Stack::Stack(size_t initialCapacity) :capacity(initialCapacity),size(0)
 {
-	stack = new int[size];
+	stack = new int[capacity];
 }
 
 void Stack::push(int a)
@@ -65,28 +63,37 @@ void Stack::push(int a)
 
 int Stack::pop()
 {
-	if (size == DEFAULT_SIZE)
+	if (size == 0)
 	{
 		return 0;
 	}
 
-	int last = stack[size];
+	int last = stack[size-1];
 
 	size--;
 	return last;
 }
 
-int Stack::peek()
+int Stack::peek()const
 {
-	if (size == DEFAULT_SIZE)
+	if (size == 0)
 	{
 		return 0;
 	}
 
-	return stack[size];
+	return stack[size-1];
 }
 
 void Stack::resize(const size_t newCapacity)
 {
+	int* newStack = new int[newCapacity];
+
+	for (size_t i = 0;i < capacity;i++)
+	{
+		newStack[i] = stack[i];
+	}
+
+	delete[]stack;
+	stack = newStack;
 	capacity = newCapacity;
 }

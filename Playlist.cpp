@@ -124,6 +124,11 @@ void Playlist::addSong(const Song& songToAdd)
 
 bool Playlist::removeSong(const char* songName)
 {
+	if (songName == nullptr)
+	{
+		return false;
+	}
+
 	for (size_t i = 0;i < countSongs;i++)
 	{
 		if (strcmp(songs[i].getName(), songName) == 0)

@@ -1,42 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Song.h"
 
-const char* Song::convertToString(const Genre& genre)
-{
-	switch (genre)
-	{
-	case Genre::CLASSICAL:return "Classical";
-	case Genre::POP:return "Pop";
-	case Genre::POPFOLK: return "Pop folk";
-	case Genre::ROCK: return "Rock";
-	default:return "Other";
-	}
-}
-
-Genre Song::convertToGenre(const char* genre)
-{
-	if (strcmp(genre, "Classical") == 0)
-	{
-		return Genre::CLASSICAL;
-	}
-	else if (strcmp(genre, "Pop") == 0)
-	{
-		return Genre::POP;
-	}
-	else if (strcmp(genre, "Pop folk") == 0)
-	{
-		return Genre::POPFOLK;
-	}
-	else if (strcmp(genre, "Rock") == 0)
-	{
-		return Genre::ROCK;
-	}
-	else
-	{
-		return Genre::OTHER;
-	}
-}
-
 Song::Song()
 {
 	name = new char[DEFAULT_SIZE+1];
@@ -46,17 +10,24 @@ Song::Song()
 	genre = Genre::OTHER;
 }
 
-Song::Song(const char* name, Duration d, Genre g):duration(d),genre(g)
+Song::Song(const char* name, Duration d, Genre g)
 {
-	this->name = new char[strlen(name)+1];
-	strcpy(this->name, name);
+	setName(name);
+	setDuration(d);
+	setGenre(g);
 }
 
-Song::Song(const char* name, Duration d, const char* genre):duration(d)
+Song::Song(const char* name, Duration d, const char* genre)
 {
-	this->name = new char[strlen(name) + 1];
-	strcpy(this->name, name);
-	this->genre = convertToGenre(genre);
+	setName(name);
+	setDuration(d);
+
+	if(genre== nullptr)
+	{
+		this->genre = Genre::OTHER;
+		return;
+	}
+	setGenre(GenreConverter::convertToGenre(genre));
 }
 
 Song::~Song()
@@ -154,6 +125,6 @@ void Song::setGenre(const Genre& g)
 void Song::printSong()const
 {
 	std::println("Name:{},Duration:{:02}:{:02},Genre:{}", name, duration.min, 
-		duration.sec,convertToString(genre));
+		duration.sec,GenreConverter::convertToString(genre));
 	std::println();
 }

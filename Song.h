@@ -1,7 +1,6 @@
 #pragma once
 #include"Duration.h"
-#include"Genre.h"
-#include<cstring>
+#include"GenreConverter.h"
 #include<print>
 
 class Song
@@ -14,9 +13,6 @@ private:
 
 	void copyFrom(const Song& other);
 	void free();
-
-	static const char* convertToString(const Genre& g);
-	static Genre convertToGenre(const char* genre);
 
 public:
 	Song();

@@ -1,13 +1,6 @@
 #pragma once
 #include<print>
-
-enum class Type
-{
-	SPELL,
-	EQUIP,
-	TRAP,
-	NONE
-};
+#include"TypeConverter.h"
 
 class MagicCard
 {
@@ -16,8 +9,6 @@ private:
 	char effect[100];
 	Type type;
 
-	const char* converToString(Type type)const;
-	const Type convertToType(const char* type)const;
 
 public:
 	MagicCard();

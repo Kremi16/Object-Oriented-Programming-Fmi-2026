@@ -4,7 +4,7 @@
 class Playlist
 {
 private:
-	static constexpr size_t DEFAULT_SONGS = 0;
+	static constexpr size_t DEFAULT_SONGS = 16;
 	Song* songs;
 	char name[256];
 	size_t countSongs = 0;

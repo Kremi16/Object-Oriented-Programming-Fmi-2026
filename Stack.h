@@ -2,7 +2,7 @@
 class Stack
 {
 private:
-	static constexpr int DEFAULT_SIZE = 0;
+	static constexpr int DEFAULT_CAPACITY = 16;
 	int* stack;
 	size_t size;
 	size_t capacity;
@@ -16,7 +16,7 @@ public:
 
 	~Stack();
 
-	Stack(size_t size);
+	explicit Stack(size_t initialCapacity);
 
 	Stack(const Stack& other);
 
@@ -26,6 +26,6 @@ public:
 
 	int pop();
 
-	int peek();
+	int peek()const;
 };
 

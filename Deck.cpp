@@ -10,7 +10,7 @@ int Deck::countMagicCards()const
 	return countMagic;
 }
 
-void Deck::addMagicCard(const MagicCard& newCard)
+void Deck::addCard(const MagicCard& newCard)
 {
 	if (countMagic== MAX_SIZE)
 	{
@@ -20,7 +20,7 @@ void Deck::addMagicCard(const MagicCard& newCard)
 	magic[countMagic++] = newCard;
 }
 
-void Deck::addMonsterCard(const MonsterCard& newCard)
+void Deck::addCard(const MonsterCard& newCard)
 {
 	if (countMonster == MAX_SIZE)
 	{
@@ -30,7 +30,7 @@ void Deck::addMonsterCard(const MonsterCard& newCard)
 	monster[countMonster++] = newCard;
 }
 
-void Deck::changeMagicCard(size_t index,const MagicCard& newCard)
+void Deck::changeCard(size_t index,const MagicCard& newCard)
 {
 	for (size_t i = 0;i < countMagic;i++)
 	{
@@ -42,7 +42,7 @@ void Deck::changeMagicCard(size_t index,const MagicCard& newCard)
 	}
 }
 
-void Deck::changeMonsterCard(size_t index, const MonsterCard& newCard)
+void Deck::changeCard(size_t index, const MonsterCard& newCard)
 {
 	for (size_t i = 0;i < countMonster;i++)
 	{

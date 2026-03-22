@@ -17,13 +17,13 @@ public:
 
 	int countMagicCards()const;
 
-	void addMonsterCard(const MonsterCard& newCard);
+	void addCard(const MonsterCard& newCard);
 
-	void addMagicCard(const MagicCard& newCard);
+	void addCard(const MagicCard& newCard);
 
-	void changeMagicCard(size_t index, const MagicCard& newCard);
+	void changeCard(size_t index, const MagicCard& newCard);
 
-	void changeMonsterCard(size_t index, const MonsterCard& newCard);
+	void changeCard(size_t index, const MonsterCard& newCard);
 
 	void removeMonsterCard(size_t index);
 
