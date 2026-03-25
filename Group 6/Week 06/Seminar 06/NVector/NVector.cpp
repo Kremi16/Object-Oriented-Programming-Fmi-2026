@@ -60,6 +60,21 @@ NVector::operator bool() const
 void NVector::free()
 {
     delete[] data;
+    data=nullptr;
+}
+
+NVector& NVector::operator++() {
+    for (int i = 0; i < size; i++)
+    {
+        data[i]++;
+    }
+    return *this;
+}
+
+NVector NVector::operator++(int dummy) {
+    NVector temp(*this);
+    ++(*this);
+    return temp;
 }
 
 void NVector::copyFrom(const NVector& other)
