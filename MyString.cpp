@@ -4,7 +4,7 @@
 #include<iostream>
 #include<print>
 
-MyString::MyString() :size(0), capacity(MAX_CAPACITY)
+MyString::MyString() :size(0), capacity(16)
 {
 	string = new char[capacity];
 	string[0] = '\0';
@@ -42,6 +42,47 @@ void MyString::free()
 	string = nullptr;
 	size = 0;
 	capacity = 0;
+}
+
+void MyString::moveFrom(MyString&& other)
+{
+	string = other.string;
+	size = other.size;
+	capacity = other.capacity;
+
+	other.string = nullptr;
+	other.size = 0;
+	other.capacity = 0;
+}
+
+void MyString::resize()
+{
+	capacity *= 2;
+	char* newString = new char[capacity];
+	for (size_t i = 0;i < size;i++)
+	{
+		newString[i] = string[i];
+	}
+
+	newString[size] = '\0';
+	delete[]string;
+	string = newString;
+}
+
+MyString::MyString(MyString&& other)noexcept
+{
+	moveFrom(std::move(other));
+}
+
+MyString& MyString::operator=(MyString&& other)noexcept
+{
+	if (this != &other)
+	{
+		free();
+		moveFrom(std::move(other));
+	}
+
+	return *this;
 }
 
 MyString::~MyString()
@@ -163,8 +204,7 @@ std::istream& operator>>(std::istream& is, MyString& string)
 
 std::ostream& operator<<(std::ostream& os, const MyString& string)
 {
-	os << string.c_str();
-	return os;
+	return os << string.c_str();
 }
 
 //Part 1
@@ -206,6 +246,146 @@ bool operator!=(const MyString& lhs, const MyString& rhs)
 //Part 2
 std::strong_ordering MyString::operator<=>(const MyString& other)const
 {
-	int cmp = strcmp(string, other.string);
-	return cmp <=> 0;
+	return strcmp(string, other.string) <=> 0;
+}
+
+
+//Week 7
+
+MyString& MyString::insert(size_t index, char ch)
+{
+	if (index > size)
+	{
+		return *this;
+	}
+	if (size+1 >= capacity)
+	{
+		resize();
+	}
+
+	for (size_t i = size; i > index; i--)
+	{
+		string[i] = string[i - 1];
+	}
+
+	string[index] = ch;
+	size++;
+	string[size] = '\0';
+
+	return *this;
+}
+
+MyString& MyString::insert(size_t index, const char* str)
+{
+	if (index > size)
+	{
+		return *this;
+	}
+
+	size_t len = strlen(str);
+
+	while (size + len >= capacity)
+	{
+		resize();
+	}
+
+	for (size_t i = size + len; i > index + len - 1; i--)
+	{
+		string[i] = string[i - len];
+	}
+
+	for (size_t i = 0; i < len; i++)
+	{
+		string[index + i] = str[i];
+	}
+
+	size += len;
+	string[size] = '\0';
+
+	return *this;
+}
+
+MyString& MyString::insert(size_t index, const MyString& str)
+{
+	return insert(index, str.string);
+}
+
+MyString& MyString::erase(size_t index)
+{
+	if (index >= size)
+	{
+		return *this;
+	}
+
+	for (size_t i = index;i < size - 1;i++)
+	{
+		string[i] = string[i + 1];
+	}
+
+	size--;
+	string[size] = '\0';
+	return *this;
+}
+
+MyString& MyString::erase(size_t index, size_t count)
+{
+	if (index >= size)
+	{
+		return *this;
+	}
+
+	if (index + count >= size)
+	{
+		count = size - index;
+	}
+
+	for (size_t i = index;i < size - count;i++)
+	{
+		string[i] = string[i + count];
+	}
+
+	size -= count;
+	string[size] = '\0';
+	return *this;
+}
+
+bool MyString::contains(char ch)const
+{
+	for (size_t i = 0;i < size;i++)
+	{
+		if(string[i]==ch)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool MyString::contains(const char* str)const
+{
+	size_t len = strlen(str);
+	if (len > size)
+	{
+		return false;
+	}
+
+	for (size_t i = 0;i <= size - len;i++)
+	{
+		size_t j = 0;
+		while (j < len && string[i + j] == str[j])
+		{
+			j++;
+		}
+		if (j == len)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool MyString::contains(const MyString& str)const
+{
+	return contains(str.string);
 }

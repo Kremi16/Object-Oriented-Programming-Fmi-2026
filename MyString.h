@@ -4,23 +4,23 @@
 class MyString
 {
 private:
-	static constexpr size_t MAX_CAPACITY = 1;
 	char* string = nullptr;
 	size_t size = 0;
-	size_t capacity = MAX_CAPACITY;
+	size_t capacity = 16;
 
 	void copyFrom(const MyString& other);
 	void free();
+	void setString(const char* string);
+	void moveFrom(MyString&& other);
+	void resize();
 public:
 	MyString();
 	MyString(const char* string);
+	~MyString();
 
 	MyString(const MyString& other);
 	MyString& operator=(const MyString& other);
 
-	~MyString();
-
-	void setString(const char* string);
 	size_t getSize()const;
 	size_t getCapacity()const;
 	MyString getSubstr(size_t start, size_t len)const;
@@ -37,6 +37,21 @@ public:
 
 	//Part 2
 	std::strong_ordering operator<=>(const MyString& other)const;
+
+	//Week 7
+	MyString(MyString&& other)noexcept;
+	MyString& operator=(MyString&& other)noexcept;
+
+	MyString& insert(size_t index, char ch);
+	MyString& insert(size_t index, const char* str);
+	MyString& insert(size_t index, const MyString& str);
+
+	MyString& erase(size_t index);
+	MyString& erase(size_t index, size_t count);
+
+	bool contains(char ch)const;
+	bool contains(const char* str)const;
+	bool contains(const MyString& str)const;
 };
 
 MyString operator+(const MyString& lhs, const MyString& rhs);
